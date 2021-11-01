@@ -88,20 +88,26 @@ Anihloh pawh in` *📖 Tutorial* `tih khu hmet la,min hman dan tur te i hre thei
 buttons = [
     [
         InlineKeyboardButton(
-            text="➕️ ADD Lynn TO YOUR GROUP 🔘", url="t.me/DikaMs_bot?startgroup=true"),
+            text="➕️ ADD ME TO YOUR GROUP 🔘", url="t.me/DikaMs_bot?startgroup=true"),
     ],
     [
-        InlineKeyboardButton(text="ℹ️ ABOUT ME", callback_data="lynn_"),
+        InlineKeyboardButton(text="ℹ️ ABOUT BOT", callback_data="lynn_"),
         InlineKeyboardButton(text="📚 COMMANDS", callback_data="help_back"),
     ],
     [
         InlineKeyboardButton(
             text="💬 GROUP", url="https://t.me/puituflynn"),
         InlineKeyboardButton(
-            text="📖 Tutorial", url="https://t.me/lynnsupportgroup/26"
+            text="📖 Tutorial", url="https://t.me/lynnsupportgroup/26"),
+    ],
+    [
+        InlineKeyboardButton(
+            text="System Stats 💻",
+            callback_data="stats_callback",
         ),
     ],
 ]
+
 
 
 HELP_STRINGS = """
@@ -115,7 +121,10 @@ HELP_STRINGS = """
 LYNN_IMG  = "https://telegra.ph/Lynn-02-26-2.jpg"
 
 
-DONATE_STRING = """No need.. I'm rich"""
+DONATE_STRING = """wow, I donate dawn avangin ka lawm e!
+ Donate i duh tak tak chuan [Heihi hmet la](t.me/puituflynn) \
+ #donate tih i thawn dawn nia. A nihloh pawhin Bot neitu [Didiktea](t.me/Didiktea) \
+ hi private in i be dawn nia ."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -224,12 +233,24 @@ def start(update: Update, context: CallbackContext):
                 timeout=60,
             )
     else:
-        update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
-                uptime
-            ),
+        update.effective_message.reply_photo(
+            DLYNN, caption= "<b>In tan Lynn ka awm reng e</b>",
             parse_mode=ParseMode.HTML,
-        )
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="Support Group",
+                            url="https://t.me/lynnsupportgroup",
+                        ),
+                        InlineKeyboardButton(
+                            text="Android Users",
+                            url="https://t.me/puituflynn",
+                        ),
+                    ],
+                ]
+             ),
+
 
 
 def error_handler(update, context):
@@ -314,7 +335,7 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="「 GO BACK 」", callback_data="help_back")]]
+                    [[InlineKeyboardButton(text="「🔙 GO BACK 」", callback_data="help_back")]]
                 ),
             )
 
@@ -442,7 +463,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "A hnuai a Help tih khu click la, Start tih kha i hmet leh dawn nia. \n\nPlease click the button below and click start to see what i can do.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -468,7 +489,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="🔙 GO BACK", callback_data="help_back")]]
             ),
         )
 
@@ -660,7 +681,7 @@ def donate(update: Update, context: CallbackContext):
             )
 
             update.effective_message.reply_text(
-                "I've PM'ed you about donating to my creator!"
+                "Keihi i Group enkawl tur a siam Bot ka ni a, nung reng tur chuan min host na lam ah sum sen te angaih ve thin avang in a hautak hle a, ka nun reng theih nan pawisa i donate duh anih chuan private in i donate theihna tur kalo thawn ang che, i support na avangin kan lawm e !"
             )
         except Unauthorized:
             update.effective_message.reply_text(
@@ -691,7 +712,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Yes I'm alive 😹")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Lynn Is Alive 😹")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
