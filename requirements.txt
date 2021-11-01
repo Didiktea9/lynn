@@ -63,3 +63,4 @@ tzlocal==2.0
 youtube_dl
 ffmpeg
 countryinfo
+faker
