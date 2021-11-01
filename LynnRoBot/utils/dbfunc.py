@@ -1,4 +1,4 @@
-from LynnRobot.mongo import db
+from LynnRoBot.mongo import db
 from typing import Dict, List, Union
 
 
