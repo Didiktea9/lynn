@@ -1,6 +1,10 @@
+
+
 from telegram.ext import run_async
 
+
 from LynnRoBot import dispatcher
+
 from LynnRoBot.modules.disable import DisableAbleCommandHandler
 from LynnRoBot.modules.helper_funcs.alternate import send_message
 from LynnRoBot.modules.helper_funcs.chat_status import user_admin
@@ -12,6 +16,14 @@ def send(update, context):
     args = update.effective_message.text.split(None, 1)
     creply = args[1]
     send_message(update.effective_message, creply)
+
+
+
+
+# Stats Module
+
+
+
 
 
 ADD_CCHAT_HANDLER = DisableAbleCommandHandler("snd", send)
