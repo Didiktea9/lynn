@@ -4,9 +4,9 @@ from telegram import Update
 from telegram.ext import CallbackContext, run_async
 from tswift import Song
 
-from LaylaRobot import dispatcher
-from LaylaRobot.modules.disable import DisableAbleCommandHandler
-from LaylaRobot.modules.helper_funcs.alternate import typing_action
+from LynnRoBot import dispatcher
+from LynnRoBot.modules.disable import DisableAbleCommandHandler
+from LynnRoBot.modules.helper_funcs.alternate import typing_action
 
 
 @run_async
