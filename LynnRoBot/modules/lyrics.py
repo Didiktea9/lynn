@@ -1,32 +1,48 @@
 # Simple get lyrics plugin
 
-"""
-from __future__ import unicode_literals
+from telegram import Update
+from telegram.ext import CallbackContext, run_async
+from tswift import Song
 
-import os
-from asyncio import get_running_loop
-from functools import partial
-from io import BytesIO
-from urllib.parse import urlparse
+from LaylaRobot import dispatcher
+from LaylaRobot.modules.disable import DisableAbleCommandHandler
+from LaylaRobot.modules.helper_funcs.alternate import typing_action
 
-import ffmpeg
-import youtube_dl
-from pyrogram import filters
 
-from LynnRoBot import aiohttpsession as session
-from LynnRoBot import app, arq
-from LynnRoBot.core.decorators.errors import capture_err
-from LynnRoBot.utils.pastebin import paste
+@run_async
+@typing_action
+def lyrics(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    msg = update.effective_message
+    query = " ".join(args)
+    song = ""
+    if not query:
+        msg.reply_text("You haven't specified which song to look for!")
+        return
+    else:
+        song = Song.find_song(query)
+        if song:
+            if song.lyrics:
+                reply = song.format()
+            else:
+                reply = "Couldn't find any lyrics for that song!"
+        else:
+            reply = "Lyrics Not found!"
+        if len(reply) > 4090:
+            with open("lyrics.txt", "w") as f:
+                f.write(f"{reply}\n\n\nOwO UwU OmO")
+            with open("lyrics.txt", "rb") as f:
+                msg.reply_document(
+                    document=f,
+                    caption="Message length exceeded max limit! Sending as a text file.",
+                )
+        else:
+            msg.reply_text(reply)
 
-@app.on_message(filters.command("lyrics"))
-async def lyrics_func(_, message):
-    if len(message.command) < 2:
-        return await message.reply_text("**Usage:**\n/lyrics [QUERY]")
-    m = await message.reply_text("**Searching**")
-    query = message.text.strip().split(None, 1)[1]
-    song = await arq.lyrics(query)
-    lyrics = song.result
-    if len(lyrics) < 4095:
-        return await m.edit(f"__{lyrics}__")
-    lyrics = await paste(lyrics)
-    await m.edit(f"**Song not found:** [URL]({lyrics})")
+
+LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, pass_args=True)
+
+dispatcher.add_handler(LYRICS_HANDLER)
+
+__command_list__ = ["lyrics"]
+__handlers__ = [LYRICS_HANDLER]
